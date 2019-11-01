@@ -24,15 +24,18 @@ In this challenge, create a web API around the following resources: `Projects` a
 
 Demonstrate your understanding of this Sprint's concepts by answering the following free-form questions. Edit this document to include your answers after each question. Make sure to leave a blank line above and below your answer so it is clear and easy to read by your Team Lead.
 
-- [ ] Mention two parts of Express that you learned about this week.
+- [X] Mention two parts of Express that you learned about this week.
+It provides convenience helpers. - a lot fo the helpers are extension methods that are added to the request and response object ex. Response.status()
 
-- [ ] Describe Middleware?
-
-- [ ] Describe a Resource?
-
-- [ ] What can the API return to help clients know if a request was successful?
-
-- [ ] How can we partition our application into sub-applications?
+It can be broken up into routers - which allows us to be able to break the application into smaller parts. It allows us to have a router to server different parts of our application
+- [X] Describe Middleware?
+-A function can take in a request (req) and before it outputs a response, (res) you can have middleware functions that will run before you put out the response.  Middleware can execute any code, make changes to the request and response object, end request response cycle and call the next function in middleware.
+- [X] Describe a Resource?
+-Are objects with a type, associated data and has relationships to other resources and methods.  Rest APIs are resource based interfaces -this is a key concept as you want to plan out and just send the information the application/client may need. 
+- [X] What can the API return to help clients know if a request was successful?
+200 response.
+- [X] How can we partition our application into sub-applications?
+-Kind of like React you can break components down into their own instances and import those paths. This allows you to reuse/invoke the components and their functionality where they are needed. 
 
 ## Project Setup
 
