@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 const actionDB = require("../data/helpers/actionModel");
 
+
+//returns id, project id, desc, notes and completed
+//checking to make sure if it returning req object
 router.get("/:id", validateAction, (req, res) => {
   actionDB
     .get(req.params.id)
@@ -13,6 +16,9 @@ router.get("/:id", validateAction, (req, res) => {
     });
 });
 
+//allows us to update a specific id - within that project can update proj id, des, notes and if it is completed or not
+//checking to make sure if it returning req object
+//validate action info makes sure it is returning data in the body, desc and notes
 router.put("/:id", validateAction, validateActionInfo, (req, res) => {
   const { id } = req.params;
   const { project_id, description, notes, completed } = req.body;
@@ -30,7 +36,9 @@ router.put("/:id", validateAction, validateActionInfo, (req, res) => {
     });
 });
 
-router.post("/", validateAction, (req, res) => {
+
+//creating a new post, checking to make sure it has all the info and creating a new post with that info
+router.post("/", (req, res) => {
   const actions = req.body;
   actionDB
     .insert(actions)
@@ -42,9 +50,11 @@ router.post("/", validateAction, (req, res) => {
       res.status(500).json({ error: "Error inserting actions." });
     });
 });
-
-router.delete("/:id", validateId, (req, res) => {
+//check to make sure id exists
+//will remove the id listed at the value
+router.delete("/:id", validateAction, (req, res) => {
   actionDB
+  //will remove the id listed at the value//object containing properties named to rout
     .remove(req.params.id)
     .then(response => {
       res.status(404).json(response);
@@ -55,20 +65,6 @@ router.delete("/:id", validateId, (req, res) => {
 });
 
 //middleware
-
-function validateId(req, res, next) {
-  const projectId = req.params.id;
-
-  actionDB.get(projectId).then(project => {
-    if (project) {
-      next();
-    } else {
-      res
-        .status(400)
-        .json({ message: "A project with that id does not exist." });
-    }
-  });
-}
 
 function validateAction(req, res, next) {
   const actionId = req.params.id;

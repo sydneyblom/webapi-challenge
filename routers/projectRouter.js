@@ -5,6 +5,28 @@ const router = express.Router();
 //importing needed db
 const projectDB = require("../data/helpers/projectModel.js");
 
+//looking for project by id
+//validating a project with that id exists
+router.get("/:id", validateProjectId, (req, res) => {
+    projectDB
+    //searches for specific parameter at specific id
+      .get(req.params.id)
+      .then(project => {
+        res.status(200).json(project);
+      })
+      .catch(error => {
+        console.log("get error", error);
+        res
+          .status(500)
+          .json({
+            error: "There was an error retrieving the project from the database."
+          });
+      });
+  });
+  
+
+//making sure we have data in the body and making sure there is a name and desc.
+//create a post that will have a name and desc.
 router.post("/", validateProjectInfo, (req, res) => {
   const { name, description } = req.body;
   projectDB
@@ -17,22 +39,9 @@ router.post("/", validateProjectInfo, (req, res) => {
     });
 });
 
-router.get("/:id", validateProjectId, (req, res) => {
-  projectDB
-    .get(req.params.id)
-    .then(project => {
-      res.status(200).json(project);
-    })
-    .catch(error => {
-      console.log("get error", error);
-      res
-        .status(500)
-        .json({
-          error: "There was an error retrieving the project from the database."
-        });
-    });
-});
-
+//making sure we have data in the body and making sure there is a name and desc.
+//looking for project by id
+//updating data in the body at that path
 router.put("/:id", validateProjectId, validateProjectInfo, (req, res) => {
   projectDB
     .update(req.params.id, req.body)
@@ -48,6 +57,8 @@ router.put("/:id", validateProjectId, validateProjectInfo, (req, res) => {
     });
 });
 
+
+//making sure project id exists and then removing the project at that id is deleted.
 router.delete("/:id", validateProjectId, (req, res) => {
   projectDB
     .remove(req.params.id)
